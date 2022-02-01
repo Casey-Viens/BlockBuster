@@ -54,5 +54,61 @@ namespace BlockBuster
             }
         }
 
+        public static List<Movie> GetAllMoviesByGenre(String genre)
+        {
+            using (var db = new SE407_BlockBusterContext())
+            {
+                return db.Movies
+                    .Join(db.Genres,
+                    m => m.Genre.GenreId,
+                    g => g.GenreId,
+                    (m, g) => new
+                    {
+                        MovieId = m.MovieId,
+                        Title = m.Title,
+                        ReleaseYear = m.ReleaseYear,
+                        GenreId = m.GenreId,
+                        DirectorId = m.DirectorId,
+                        GenreDescr = g.GenreDescr
+                    }).Where(w => w.GenreDescr == genre).
+                    Select(m => new Movie
+                    {
+                        MovieId = m.MovieId,
+                        Title = m.Title,
+                        ReleaseYear = m.ReleaseYear,
+                        GenreId = m.GenreId,
+                        DirectorId = m.DirectorId
+                    }).ToList();
+            }
+        }
+
+        public static List<Movie> GetAllMoviesByDirectorLastName(String directorLastName)
+        {
+            using (var db = new SE407_BlockBusterContext())
+            {
+                return db.Movies
+                    .Join(db.Directors,
+                    m => m.Director.DirectorId,
+                    d => d.DirectorId,
+                    (m, d) => new
+                    {
+                        MovieId = m.MovieId,
+                        Title = m.Title,
+                        ReleaseYear = m.ReleaseYear,
+                        GenreId = m.GenreId,
+                        DirectorId = m.DirectorId,
+                        LastName = d.LastName
+                    }).Where(w => w.LastName == directorLastName).
+                    Select(m => new Movie
+                    {
+                        MovieId = m.MovieId,
+                        Title = m.Title,
+                        ReleaseYear = m.ReleaseYear,
+                        GenreId = m.GenreId,
+                        DirectorId = m.DirectorId
+                    }).ToList();
+            }
+        }
+
     }
 }
