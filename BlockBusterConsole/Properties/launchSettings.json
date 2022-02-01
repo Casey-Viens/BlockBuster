@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "BlockBusterConsole": {
-      "commandName": "Project",
-      "commandLineArgs": "Console"
-    }
-  }
-}
